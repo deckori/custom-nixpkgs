@@ -1,39 +1,99 @@
+# Copyright (c) 2026 tsrk. <tsrk@tsrk.me>
+# This file is licensed under the MIT license
+# See the LICENSE file in the repository root for more info.
+
+# SPDX-License-Identifier: MIT
+
 {
+  alsa-lib,
+  autoPatchelfHook,
+  cairo,
+  fetchzip,
+  fontconfig,
+  gdk-pixbuf,
+  glib-networking,
+  gtk3,
   lib,
-  appimageTools,
-  fetchurl,
+  libcxx,
+  libGL,
+  libsoup_3,
+  libx11,
+  libxext,
+  libxi,
+  libxrender,
+  libxtst,
+  makeWrapper,
+  stdenv,
+  webkitgtk_4_1,
+  zlib,
 }:
 
-let
-  version = "420";
-  pname = "pano-scrobbler";
+stdenv.mkDerivation (self: {
+  pname = "pano-scrobbler-bin";
+  version = "4.18";
 
-  src = fetchurl {
-    url = "https://github.com/kawaiiDango/pano-scrobbler/releases/download/${version}/${pname}-linux-x64.AppImage";
-    hash = "sha256-LBU7kz6cBn+O1fEfyQ/sT7eHs6x0XLGw3B5bm0y/HGM=";
-  };
+  src =
+    let
+      tagVersion = lib.concatStrings (builtins.splitVersion self.version);
+    in
+    fetchzip {
+      url = "https://github.com/kawaiiDango/pano-scrobbler/releases/download/${tagVersion}/pano-scrobbler-linux-x64.tar.gz";
+      hash = "sha256-vIKfCNmmCNyH2gSm80IhkZYzvt0hyJe/WKa+BcLMbIc=";
+      stripRoot = false;
+    };
 
-  appimageContents = appimageTools.extract { inherit pname version src; };
-in
-appimageTools.wrapType2 {
-  inherit pname version src;
+  buildInputs = [
+    alsa-lib
+    cairo
+    fontconfig
+    gdk-pixbuf
+    glib-networking
+    gtk3
+    libcxx
+    libGL
+    libsoup_3
+    libx11
+    libxext
+    libxi
+    libxrender
+    libxtst
+    webkitgtk_4_1
+    zlib
+  ];
 
-  extraPkgs = pkgs: with pkgs; [ webkitgtk_4_1.dev ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    makeWrapper
+  ];
 
-  extraInstallCommands = ''
-    install -Dm444 ${appimageContents}/pano-scrobbler.desktop -t $out/share/applications/
-    install -Dm444 ${appimageContents}/pano-scrobbler.svg -t $out/share/icons/hicolor/scalable/apps/
-    substituteInPlace $out/share/applications/pano-scrobbler.desktop \
-      --replace-fail 'Exec=AppRun' 'Exec=pano-scrobbler'
+  installPhase = ''
+    mkdir -vp $out/{bin,lib,share/applications}
+    chmod -v +x *.so lib/*.so
+
+    cp -v pano-scrobbler.svg LICENSE $out
+    cp -v *.so lib/*.so $out/lib
+    cp -v pano-scrobbler $out
+    cp -v pano-scrobbler.desktop $out/share/applications
+
+    sed -i -e "s|Exec=|Exec=$out/bin/pano-scrobbler|g" \
+      -e "s|Icon=|Icon=$out/pano-scrobbler.svg|g" \
+      $out/share/applications/pano-scrobbler.desktop
+
+    wrapProgram $out/pano-scrobbler \
+      --add-flag -Dpano.native.components.path="$out/lib" \
+      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath (self.buildInputs ++ [ "$out/lib" ])}
+
+    ln -sft $out $out/lib/{libawt,libfontmanager,libjava,libjvm,libjsound}.so
+    ln -sft $out/bin $out/pano-scrobbler
+    addAutoPatchelfSearchPath $out/lib
   '';
 
-  meta = {
-    description = "Feature packed cross-platform music tracker for Last.fm, ListenBrainz, Libre.fm, Pleroma and more";
-    homepage = "https://github.com/kawaiiDango/pano-scrobbler";
-    downloadPage = "https://github.com/kawaiiDango/pano-scrobbler/releases";
-    license = lib.licenses.gpl3Plus;
-    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    platforms = [ "x86_64-linux" ];
-    mainProgram = pname;
+  meta = with lib; {
+    description = "Feature packed cross-platform music tracker for Last.fm, ListenBrainz, Libre.fm, Pleroma and other compatible services";
+    homepage = "https://kawaiidango.github.io/pano-scrobbler/";
+    mainProgram = "pano-scrobbler";
+    license = licenses.gpl3Only;
+    platforms = platforms.linux;
+    broken = false;
   };
-}
+})

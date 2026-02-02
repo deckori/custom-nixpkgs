@@ -13,6 +13,7 @@
         pix2text = pkgs.callPackage ./pkgs/pix2text { };
         program-chooser = pkgs.callPackage ./pkgs/program-chooser { };
         taskopen = pkgs.callPackage ./pkgs/taskopen { };
+        say = pkgs.callPackage ./pkgs/say { };
         tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
       };
     };

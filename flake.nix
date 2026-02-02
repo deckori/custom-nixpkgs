@@ -7,8 +7,8 @@
     in
     {
       packages.${system} = {
-        alias-finder-nu = pkgs.callPackage ./alias-finder-nu { };
-        pano-scrobbler = pkgs.callPackage ./pano-scrobbler { };
+        alias-finder-nu = pkgs.callPackage ./pkgs/alias-finder-nu { };
+        pano-scrobbler = pkgs.callPackage ./pkgs/pano-scrobbler { };
       };
     };
 }

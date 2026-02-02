@@ -6,6 +6,6 @@
       pkgs = import nixpkgs { inherit system; };
     in
     {
-      packages.${system}.alias-finder-nu = pkgs.callPackage ./alias-finder-nu/shell.nix { };
+      packages.${system}.alias-finder-nu = pkgs.callPackage ./alias-finder-nu/default.nix { };
     };
 }

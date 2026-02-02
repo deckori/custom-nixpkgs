@@ -7,5 +7,6 @@
     in
     {
       packages.${system}.alias-finder-nu = pkgs.callPackage ./alias-finder-nu/default.nix { };
+      packages.${system}.pano-scrobbler = pkgs.callPackage ./pano-scrobbler { };
     };
 }

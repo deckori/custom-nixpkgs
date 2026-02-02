@@ -6,7 +6,7 @@
       pkgs = import nixpkgs { inherit system; };
     in
     {
-      packages.${system}.alias-finder-nu = pkgs.callPackage ./alias-finder-nu/default.nix { };
+      packages.${system}.alias-finder-nu = pkgs.callPackage ./alias-finder-nu { };
       packages.${system}.pano-scrobbler = pkgs.callPackage ./pano-scrobbler { };
     };
 }

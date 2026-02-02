@@ -5,12 +5,12 @@
 }:
 
 let
-  version = "418";
+  version = "420";
   pname = "pano-scrobbler";
 
   src = fetchurl {
     url = "https://github.com/kawaiiDango/pano-scrobbler/releases/download/${version}/${pname}-linux-x64.AppImage";
-    hash = "sha256-ZMxZ3oennfOPs4Bx6FScEGgqRMF2r1oQoCJnCoTHq78=";
+    hash = "sha256-LBU7kz6cBn+O1fEfyQ/sT7eHs6x0XLGw3B5bm0y/HGM=";
   };
 
   appimageContents = appimageTools.extract { inherit pname version src; };

@@ -8,7 +8,8 @@
     {
       packages.${system} = {
         alias-finder-nu = pkgs.callPackage ./pkgs/alias-finder-nu { };
-        pano-scrobbler = pkgs.callPackage ./pkgs/pano-scrobbler { };
+        # The desktop version is bugged. Web scrobbler is a better alternative
+        # pano-scrobbler = pkgs.callPackage ./pkgs/pano-scrobbler { };
         pix2text = pkgs.callPackage ./pkgs/pix2text { };
         program-chooser = pkgs.callPackage ./pkgs/program-chooser { };
         taskopen = pkgs.callPackage ./pkgs/taskopen { };

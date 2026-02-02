@@ -1,3 +1,4 @@
+# The desktop version is bugged. Web scrobbler is a better alternative
 # Copyright (c) 2026 tsrk. <tsrk@tsrk.me>
 # This file is licensed under the MIT license
 # See the LICENSE file in the repository root for more info.
@@ -30,7 +31,7 @@
 
 stdenv.mkDerivation (self: {
   pname = "pano-scrobbler-bin";
-  version = "4.18";
+  version = "420";
 
   src =
     let
@@ -38,7 +39,7 @@ stdenv.mkDerivation (self: {
     in
     fetchzip {
       url = "https://github.com/kawaiiDango/pano-scrobbler/releases/download/${tagVersion}/pano-scrobbler-linux-x64.tar.gz";
-      hash = "sha256-vIKfCNmmCNyH2gSm80IhkZYzvt0hyJe/WKa+BcLMbIc=";
+      hash = "sha256-2xap5rBtWICXxlTV2izsBzh7QaZQ3DPAuHAwaEI9BUo=";
       stripRoot = false;
     };
 

@@ -1,3 +1,4 @@
+# The desktop version is bugged. Web scrobbler is a better alternative
 {
   lib,
   appimageTools,

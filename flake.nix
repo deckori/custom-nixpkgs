@@ -2,21 +2,34 @@
   outputs =
     { self, nixpkgs, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      forEachSystem =
+        f: nixpkgs.lib.genAttrs systems (system: f system (import nixpkgs { inherit system; }));
     in
     {
-      packages.${system} = {
-        alias-finder-nu = pkgs.callPackage ./pkgs/alias-finder-nu { };
-        # The desktop version is bugged. Web scrobbler is a better alternative
-        # pano-scrobbler = pkgs.callPackage ./pkgs/pano-scrobbler { };
-        pix2text = pkgs.callPackage ./pkgs/pix2text { };
-        ryubing = pkgs.callPackage ./pkgs/ryubing { };
-        program-chooser = pkgs.callPackage ./pkgs/program-chooser { };
-        taskopen = pkgs.callPackage ./pkgs/taskopen { };
-        say = pkgs.callPackage ./pkgs/say { };
-        sticker-convert = pkgs.callPackage ./pkgs/sticker-convert { };
-        tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
-      };
+      packages = forEachSystem (
+        system: pkgs:
+        {
+          alias-finder-nu = pkgs.callPackage ./pkgs/alias-finder-nu { };
+          program-chooser = pkgs.callPackage ./pkgs/program-chooser { };
+        }
+        # the following is for only x86
+        // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isx86_64 {
+          say = pkgs.callPackage ./pkgs/say { };
+          taskopen = pkgs.callPackage ./pkgs/taskopen { };
+          pix2text = pkgs.callPackage ./pkgs/pix2text { };
+          ryubing = pkgs.callPackage ./pkgs/ryubing { };
+          sticker-convert = pkgs.callPackage ./pkgs/sticker-convert { };
+          tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
+        }
+        # the following is for only aarch64
+        // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {
+          # som-package = pkgs.callPackage ./pkgs/some-package { };
+        }
+      );
     };
 }

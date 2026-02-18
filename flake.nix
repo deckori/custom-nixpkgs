@@ -25,7 +25,9 @@
           ryubing = pkgs.callPackage ./pkgs/ryubing { };
           sticker-convert = pkgs.callPackage ./pkgs/sticker-convert { };
           tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
-          gtasks = pkgs.callPackage ./pkgs/gtasks { };
+          gtasks-bin = pkgs.callPackage ./pkgs/gtasks-bin { };
+          # Not completed
+          # gtasks = pkgs.callPackage ./pkgs/gtasks { };
         }
         # the following is for only aarch64
         // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {

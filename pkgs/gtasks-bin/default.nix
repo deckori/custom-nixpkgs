@@ -33,13 +33,20 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  postInstall = ''
-    installShellCompletion --cmd gtasks \
-      --bash <($out/bin/gtasks completion bash) \
-      --fish <($out/bin/gtasks completion fish) \
-      --zsh <($out/bin/gtasks completion zsh)
-      --nushell <($out/bin/gtasks completion nushell)
-  '';
+  # installPhase = ''
+  #   mkdir -p $out/bin
+  #   cp $src/gtasks $out/bin/
+  #   chmod +x $out/bin/gtasks
+  #   wrapProgram $out/bin/gtasks \
+  #     --prefix PATH : ${lib.makeBinPath [ stdenv.cc ]}
+  # '';
+
+  # postInstall = ''
+  #   installShellCompletion --cmd gtasks \
+  #     --bash <($out/bin/gtasks completion bash) \
+  #     --fish <($out/bin/gtasks completion fish) \
+  #     --zsh <($out/bin/gtasks completion zsh)
+  # '';
   # Optional, add meta information
   meta = with lib; {
     description = "A command-line task manager written in Go";

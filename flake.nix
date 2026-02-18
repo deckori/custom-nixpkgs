@@ -15,16 +15,17 @@
         system: pkgs:
         {
           program-chooser = pkgs.callPackage ./pkgs/program-chooser { };
-          say = pkgs.callPackage ./pkgs/say { };
         }
         # the following is for only x86
         // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isx86_64 {
           alias-finder-nu = pkgs.callPackage ./pkgs/alias-finder-nu { };
+          say = pkgs.callPackage ./pkgs/say { };
           taskopen = pkgs.callPackage ./pkgs/taskopen { };
           pix2text = pkgs.callPackage ./pkgs/pix2text { };
           ryubing = pkgs.callPackage ./pkgs/ryubing { };
           sticker-convert = pkgs.callPackage ./pkgs/sticker-convert { };
           tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
+          gtasks = pkgs.callPackage ./pkgs/gtasks { };
         }
         # the following is for only aarch64
         // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isAarch64 {

@@ -26,6 +26,7 @@
           sticker-convert = pkgs.callPackage ./pkgs/sticker-convert { };
           tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
           gtasks-bin = pkgs.callPackage ./pkgs/gtasks-bin { };
+          proton-gdk = pkgs.callPackage ./pkgs/proton-gdk { };
           # Not completed
           # gtasks = pkgs.callPackage ./pkgs/gtasks { };
         }

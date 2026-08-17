@@ -27,6 +27,7 @@
           tokei-all = pkgs.callPackage ./pkgs/tokei-all { };
           gtasks-bin = pkgs.callPackage ./pkgs/gtasks-bin { };
           proton-gdk = pkgs.callPackage ./pkgs/proton-gdk { };
+          onetagger = pkgs.callPackage ./pkgs/onetagger { };
           minecraft-console-client = pkgs.callPackage ./pkgs/minecraft-console-client { };
           # Not completed
           # gtasks = pkgs.callPackage ./pkgs/gtasks { };
